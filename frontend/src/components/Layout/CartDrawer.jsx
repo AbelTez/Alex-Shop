@@ -5,7 +5,7 @@ import CartContents from "../Cart/CartContents";
 export default function CartDrawer({ drawerOpen, toggleCartDrawer }) {
   return (
     <div
-      className={`fixed top-0 right-0 h-full w-3/4 sm:w-120 md:w-1/2 bg-white shadow-lg transform transition-transform duration-300 flex flex-col z-50 ${drawerOpen ? "translate-x-0" : "translate-x-full"}`}
+      className={`fixed top-0 right-0 h-full w-2/4 sm:w-120 md:w-3/10 bg-white shadow-lg transform transition-transform duration-300 flex flex-col z-50 ${drawerOpen ? "translate-x-0" : "translate-x-full"}`}
     >
       {/* close button */}
       <div className="flex p-4 justify-end">

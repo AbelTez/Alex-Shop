@@ -22,7 +22,7 @@ export default function NavBar() {
   const toggleCartDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
-  const navlinks=[{name:"Men", path:"#"},{name:"Women", path:"#"},{name:"Top Wear", path:"#"},{name:"Bottom Wear", path:"#"}]
+  const navLinks=[{name:"Men", path:"#"},{name:"Women", path:"#"},{name:"Top Wear", path:"#"},{name:"Bottom Wear", path:"#"}]
 
   return (
     <>
@@ -44,7 +44,7 @@ export default function NavBar() {
 
           {/* Desktop Nav */}
           <div className="hidden items-center gap-8 md:flex">
-            {navlinks.map((link) => (
+            {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
@@ -139,7 +139,7 @@ export default function NavBar() {
 
         {/* Links */}
         <div className="flex flex-col p-5">
-          {navlinks.map((link) => (
+          {navLinks.map((link) => (
             <Link
               key={link.name}
               to={link.path}
