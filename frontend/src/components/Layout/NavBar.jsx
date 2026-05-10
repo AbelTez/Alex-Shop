@@ -8,7 +8,7 @@ import {
 import { IoMdClose } from "react-icons/io";
 
 import SearchBar from "../Common/SearchBar";
-import myLogo from "../../assets/logo.png";
+import myLogo from "../../assets/images/logo.png";
 import CartDrawer from "./CartDrawer";
 
 export default function NavBar() {
