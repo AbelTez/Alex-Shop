@@ -1,4 +1,5 @@
-import React from "react";
+import React, { use, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const selectedProduct = {
   name: "Stylish Jacket",
@@ -11,7 +12,7 @@ const selectedProduct = {
   sizes: ["S", "M", "L", "XL"],
   colors: ["Black", "Navy", "Gray"],
   category: "Outerwear",
-  stock: 20,
+  stock: 5,
   images: [
     {
       url: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab",
@@ -25,9 +26,56 @@ const selectedProduct = {
 };
 
 export default function ProductDetails() {
+  const [mainImage, setMainImage] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
+  const [quantity, setQuantity] = useState(0);
+  const [isInWishlist, setIsInWishlist] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {}, []);
+
+  useEffect(() => {
+    if (selectedProduct.images.length > 0) {
+      setMainImage(selectedProduct.images[0].url);
+    }
+  }, [selectedProduct.images]);
+
+  const handleQuantityChange = (delta) => {
+    setQuantity((prev) => {
+      if (prev + delta > selectedProduct.stock || prev + delta < 1) {
+        return prev; // Don't allow increasing beyond stock or decreasing below 1
+      }
+      const newQuantity = prev + delta;
+      return Math.max(1, newQuantity);
+    });
+  };
+
+  const handleAddToCart = () => {
+    if (!selectedColor || !selectedSize) {
+      setErrorMessage("Please select a color and size.");
+      toast.error("Please select a color and size.");
+      return;
+    }
+    if (quantity < 1) {
+      setErrorMessage("Please select a quantity.");
+      toast.error("Please select a quantity.");
+      return;
+    }
+    toast.success("Item added to cart!");
+  };
+
+  const handleWishlistToggle = () => {
+    setIsInWishlist((prev) => !prev);
+    toast.success(
+      isInWishlist ? "Removed from wishlist!" : "Added to wishlist!",
+    );
+  };
+
   return (
     <div className="bg-[#f8f8f8] py-14">
-      <div className="mx-auto max-w-7xl rounded-[32px] bg-white p-6 shadow-sm md:p-10">
+      <div className="mx-auto max-w-7xl rounded-4xl bg-white p-6 shadow-sm md:p-10">
         <div className="grid gap-10 lg:grid-cols-2">
           {/* LEFT SIDE */}
           <div className="flex gap-5">
@@ -39,6 +87,7 @@ export default function ProductDetails() {
                   src={img.url}
                   alt={img.altText || `Thumbnail ${index}`}
                   className="h-24 w-24 cursor-pointer rounded-2xl border border-gray-200 object-cover transition-all duration-300 hover:scale-105 hover:border-black"
+                  onClick={() => setMainImage(img.url)}
                 />
               ))}
             </div>
@@ -47,9 +96,9 @@ export default function ProductDetails() {
             <div className="flex-1">
               <div className="overflow-hidden rounded-[28px] bg-gray-100">
                 <img
-                  src={selectedProduct.images[0].url}
+                  src={mainImage}
                   alt={selectedProduct.images[0].altText || "Main Product"}
-                  className="h-[650px] w-full object-cover transition duration-700 hover:scale-105"
+                  className="h-162.5 w-full object-cover transition duration-700 hover:scale-105"
                 />
               </div>
 
@@ -60,7 +109,7 @@ export default function ProductDetails() {
                     key={index}
                     src={img.url}
                     alt={img.altText || `Thumbnail ${index}`}
-                    className="h-20 w-20 min-w-[80px] rounded-2xl border border-gray-200 object-cover"
+                    className="h-20 w-20 min-w-20 rounded-2xl border border-gray-200 object-cover"
                   />
                 ))}
               </div>
@@ -109,10 +158,11 @@ export default function ProductDetails() {
                 {selectedProduct.colors.map((color) => (
                   <button
                     key={color}
-                    className="h-10 w-10 rounded-full border-2 border-gray-200 transition hover:scale-110 hover:border-black"
+                    className={`h-10 w-10 rounded-full border-2 border-gray-200 transition hover:scale-110 hover:border-black ${selectedColor === color ? "border-4 border-red-500" : "border-gray-300"}`}
                     style={{
                       backgroundColor: color.toLowerCase(),
                     }}
+                    onClick={() => setSelectedColor(color)}
                   />
                 ))}
               </div>
@@ -128,7 +178,8 @@ export default function ProductDetails() {
                 {selectedProduct.sizes.map((size) => (
                   <button
                     key={size}
-                    className="rounded-xl border border-gray-300 px-5 py-3 text-sm font-medium transition-all duration-300 hover:border-black hover:bg-black hover:text-white"
+                    onClick={() => setSelectedSize(size)}
+                    className={`rounded-xl border px-5 py-3 text-sm font-medium transition-all duration-300 hover:border-black hover:bg-black hover:text-white ${selectedSize === size ? "border-black bg-black text-white" : "border-gray-300"}`}
                   >
                     {size}
                   </button>
@@ -143,13 +194,19 @@ export default function ProductDetails() {
               </p>
 
               <div className="flex w-fit items-center rounded-2xl border border-gray-300">
-                <button className="px-5 py-3 text-lg transition hover:bg-gray-100">
+                <button
+                  onClick={() => handleQuantityChange(-1)}
+                  className={`px-5 py-3 text-lg transition hover:bg-gray-100 ${quantity === 1 ? "cursor-not-allowed opacity-50" : ""}`}
+                >
                   -
                 </button>
 
-                <span className="px-6 text-lg font-semibold">1</span>
+                <span className="px-6 text-lg font-semibold">{quantity}</span>
 
-                <button className="px-5 py-3 text-lg transition hover:bg-gray-100">
+                <button
+                  onClick={() => handleQuantityChange(1)}
+                  className={`px-5 py-3 text-lg transition hover:bg-gray-100 ${quantity >= selectedProduct.stock ? "cursor-not-allowed opacity-50" : ""}`}
+                >
                   +
                 </button>
               </div>
@@ -157,7 +214,10 @@ export default function ProductDetails() {
 
             {/* Buttons */}
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <button className="flex-1 rounded-2xl bg-black py-4 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-gray-800">
+              <button
+                onClick={handleAddToCart}
+                className="flex-1 rounded-2xl bg-black py-4 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-gray-800"
+              >
                 Add to Cart
               </button>
 
