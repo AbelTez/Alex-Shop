@@ -1,5 +1,6 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
+import ProductGrid from "./ProductGrid";
 
 const selectedProduct = {
   name: "Stylish Jacket",
@@ -24,23 +25,62 @@ const selectedProduct = {
     },
   ],
 };
-
+const similarProducts = [
+  {
+    _id: "1",
+    name: "product 1",
+    price: 80,
+    images: [
+      {
+        url: "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
+        altText: "Product 1"
+      }
+    ]
+  },
+  {
+    _id: "2",
+    name: "product 2",
+    price: 90,
+    images: [
+      {
+        url: "https://images.unsplash.com/photo-1549298916-b41d501d3772",
+        altText: "Product 2"
+      }
+    ]
+  },
+  {
+    _id: "3",
+    name: "product 3",
+    price: 100,
+    images: [
+      {
+        url: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519",
+        altText: "Product 3"
+      }
+    ]
+  },
+  {
+    _id: "4",
+    name: "product 4",
+    price: 110,
+    images: [
+      {
+        url: "https://images.unsplash.com/photo-1511556532299-8f662fc26c06",
+        altText: "Product 4"
+      }
+    ]
+  }
+]
 export default function ProductDetails() {
-  const [mainImage, setMainImage] = useState("");
+  const [mainImage, setMainImage] = useState(
+    selectedProduct.images[0]?.url || "",
+  );
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
-  useEffect(() => {}, []);
-
-  useEffect(() => {
-    if (selectedProduct.images.length > 0) {
-      setMainImage(selectedProduct.images[0].url);
-    }
-  }, [selectedProduct.images]);
 
   const handleQuantityChange = (delta) => {
     setQuantity((prev) => {
@@ -63,14 +103,21 @@ export default function ProductDetails() {
       toast.error("Please select a quantity.");
       return;
     }
-    toast.success("Item added to cart!");
+    setIsButtonDisabled(true);
+    setTimeout(() => {
+      setIsButtonDisabled(false);
+      toast.success("Item added to cart!");
+    }, 1000);
   };
 
   const handleWishlistToggle = () => {
-    setIsInWishlist((prev) => !prev);
-    toast.success(
-      isInWishlist ? "Removed from wishlist!" : "Added to wishlist!",
-    );
+    setIsInWishlist((prev) => {
+      const updated = !prev;
+     setTimeout(() => {
+      toast.success(updated ? "Added to wishlist!" : "Removed from wishlist!");
+      }, 10);
+      return updated;
+    });
   };
 
   return (
@@ -98,7 +145,7 @@ export default function ProductDetails() {
                 <img
                   src={mainImage}
                   alt={selectedProduct.images[0].altText || "Main Product"}
-                  className="h-162.5 w-full object-cover transition duration-700 hover:scale-105"
+                  className="h-125 lg:h-162.5 w-full object-cover transition duration-700 hover:scale-105"
                 />
               </div>
 
@@ -109,7 +156,11 @@ export default function ProductDetails() {
                     key={index}
                     src={img.url}
                     alt={img.altText || `Thumbnail ${index}`}
-                    className="h-20 w-20 min-w-20 rounded-2xl border border-gray-200 object-cover"
+                    className={`h-20 w-20 min-w-20 cursor-pointer rounded-2xl border border-gray-200 object-cover transition-all duration-300 hover:scale-105 hover:border-black 
+                    ${
+                      mainImage === img.url ? "border-black" : "border-gray-200"
+                    }`}
+                    onClick={() => setMainImage(img.url)}
                   />
                 ))}
               </div>
@@ -157,6 +208,7 @@ export default function ProductDetails() {
               <div className="flex gap-3">
                 {selectedProduct.colors.map((color) => (
                   <button
+                    aria-label={`Select ${color} color`}
                     key={color}
                     className={`h-10 w-10 rounded-full border-2 border-gray-200 transition hover:scale-110 hover:border-black ${selectedColor === color ? "border-4 border-red-500" : "border-gray-300"}`}
                     style={{
@@ -216,13 +268,23 @@ export default function ProductDetails() {
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <button
                 onClick={handleAddToCart}
-                className="flex-1 rounded-2xl bg-black py-4 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-gray-800"
+                disabled={isButtonDisabled}
+                className={`flex-1 rounded-2xl bg-black py-4 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-gray-800
+                   ${isButtonDisabled ? "cursor-not-allowed opacity-50" : ""}`}
               >
-                Add to Cart
+               {isButtonDisabled ? "Adding..." : "Add to Cart"}
               </button>
 
-              <button className="flex-1 rounded-2xl border border-gray-300 py-4 text-sm font-semibold uppercase tracking-wide text-gray-900 transition hover:border-black hover:bg-black hover:text-white">
-                Wishlist
+              <button
+                onClick={handleWishlistToggle}
+                className={`flex-1 rounded-2xl border border-gray-300 py-4 text-sm font-semibold uppercase tracking-wide text-gray-900 transition hover:border-black hover:bg-black hover:text-white
+              ${
+                isInWishlist
+                  ? "border-black bg-black text-white"
+                  : "border-gray-300 text-gray-900 hover:border-black hover:bg-black hover:text-white"
+              }`}
+              >
+                {isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
               </button>
             </div>
 
@@ -263,6 +325,10 @@ export default function ProductDetails() {
               </div>
             </div>
           </div>
+        </div>
+        <div className="mt-20">
+          <h2 className="text-2xl text-center font-medium mb-4">You may also like</h2>
+            <ProductGrid products={similarProducts}/>
         </div>
       </div>
     </div>
