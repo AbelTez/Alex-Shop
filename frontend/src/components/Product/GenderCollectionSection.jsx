@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import womenCollectionImage from "../../assets/images/womenCollection.jpg";
-import menCollectionImage from "../../assets/images/menCollection.jpg";
+import menCollectionImage from "../../assets/images/menCollection.png";
 
 export default function GenderCollectionSection() {
   const collections = [

@@ -4,6 +4,7 @@ import GenderCollectionSection from "../components/Product/GenderCollectionSecti
 import NewArrivals from "./../components/Product/NewArrivals";
 import ProductDetails from "../components/Product/ProductDetails";
 import ProductGrid from "../components/Product/ProductGrid";
+import FeaturedCollection from "../components/Product/FeaturedCollection";
 
 const womenproducts = [
   {
@@ -78,6 +79,7 @@ export default function Home() {
         </h2>
         <ProductGrid products={womenproducts} />
       </div>
+      <FeaturedCollection />
     </div>
   );
 }
