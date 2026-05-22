@@ -5,6 +5,7 @@ import NewArrivals from "./../components/Product/NewArrivals";
 import ProductDetails from "../components/Product/ProductDetails";
 import ProductGrid from "../components/Product/ProductGrid";
 import FeaturedCollection from "../components/Product/FeaturedCollection";
+import FeaturesSection from "../components/Product/FeaturesSection";
 
 const womenproducts = [
   {
@@ -80,6 +81,7 @@ export default function Home() {
         <ProductGrid products={womenproducts} />
       </div>
       <FeaturedCollection />
+      <FeaturesSection />
     </div>
   );
 }
