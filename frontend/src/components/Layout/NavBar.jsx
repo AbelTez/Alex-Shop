@@ -22,7 +22,7 @@ export default function NavBar() {
   const toggleCartDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
-  const navLinks=[{name:"Men", path:"#"},{name:"Women", path:"#"},{name:"Top Wear", path:"#"},{name:"Bottom Wear", path:"#"}]
+  const navLinks=[{name:"Men", path:"/collections/all"},{name:"Women", path:"/collections/women"},{name:"Top Wear", path:"/collections/top-wear"},{name:"Bottom Wear", path:"/collections/bottom-wear"}]
 
   return (
     <>

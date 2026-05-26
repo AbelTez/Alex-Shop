@@ -5,6 +5,9 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
+import Collection from "./pages/Collection";
+import MyOrder from "./pages/MyOrder";
+// import AdminLayout from "./components/Layout/AdminLayout";
 import {Toaster} from "sonner"
 function App() {
   return (
@@ -17,6 +20,8 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="collections/:collection" element={<Collection />} />
+          {/* <Route path="my-orders" element={<MyOrder />} /> */}
         </Route>
 
         {/* admin layout */}
