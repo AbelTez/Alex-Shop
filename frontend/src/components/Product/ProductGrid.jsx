@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 export default function ProductGrid({ products }) {
   return (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {products.map((item) => (
+      {products.map((item, index) => (
         <Link
           to={`/product/${item.id}`}
-          key={item.id}
+          key={`${item.id ?? "product"}-${index}`}
           className="rounded-lg  border-gray-200 p-4 transition-shadow duration-300 hover:shadow-lg"
         >
           <div className="rounded-lg bg-white p-4">

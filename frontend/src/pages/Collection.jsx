@@ -10,7 +10,7 @@ export default function Collection() {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
 
   const toggleSideBar = () => {
-    setIsSideBarOpen(!isSideBarOpen);
+    setIsSideBarOpen((prev) => !prev);
   };
   useEffect(() => {
     // 1. Add the listener when the component mounts
@@ -95,26 +95,41 @@ export default function Collection() {
   return (
     <>
       <div className="flex flex-col lg:flex-row">
-        {/* mobile filter button     */}
-        <button
-          onClick={toggleSideBar}
-          className="lg:hidden border p-2 flex justify-center items-center"
-        >
-          <FaFilter className="mr-2" />
-        </button>
-        {/* filter the side bar */}
-        <div
+        <div className="flex items-center justify-between p-4 lg:hidden">
+          <h2 className="text-2xl uppercase">All Collections</h2>
+          <button
+            onClick={toggleSideBar}
+            className="flex items-center gap-2 rounded border px-3 py-2"
+          >
+            <FaFilter />
+            Filter
+          </button>
+        </div>
+
+        {isSideBarOpen && (
+          <div
+            className="fixed inset-0 z-40 bg-black/40 lg:hidden"
+            onClick={() => setIsSideBarOpen(false)}
+          />
+        )}
+
+        <aside
           ref={sideBarRef}
-          className={`${isSideBarOpen ? "translate-x-0" : "-translate-x-full"} 
-          sticky inset-y-0 z-50 left-0  lg:translate-x-0  lg:static w-64 max-w-sm bg-white transition-transform duration-300`}
+          className={`${isSideBarOpen ? "translate-x-0" : "-translate-x-full"} fixed left-0 top-0 z-50 h-full w-72 max-w-[85vw] overflow-y-auto bg-white shadow-xl transition-transform duration-300 lg:static lg:z-auto lg:h-auto lg:w-auto lg:max-w-sm lg:translate-x-0 lg:shadow-none`}
         >
           <FilterSideBar />
-        </div>
-        <div className="grow p-4">
-          <h2 className="text-2xl uppercase mb-4">All Collections</h2>
-          {/* sort options */}
-          <SortOptions />
-          {/* product grid */}
+        </aside>
+
+        <div className="grow p-4 lg:p-4">
+          <h2 className="mb-4 hidden text-2xl uppercase lg:block">
+            All Collections
+          </h2>
+          <div className="hidden lg:block">
+            <SortOptions />
+          </div>
+          <div className="lg:hidden mb-4">
+            <SortOptions />
+          </div>
           <ProductGrid products={products} />
         </div>
       </div>
