@@ -102,7 +102,12 @@ export default function FilterSideBar() {
     Navigate(`?${updatedParams.toString()}`);
   };
 
-
+const handlePriceChange = (e) => {
+  const newMaxPrice = parseFloat(e.target.value);
+  setPriceRange([priceRange[0], newMaxPrice]);
+  const newFilters = { ...filters, maxPrice: newMaxPrice };
+  updatedParams(newFilters);
+}
 
 
 

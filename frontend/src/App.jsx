@@ -7,6 +7,7 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import Collection from "./pages/Collection";
 import MyOrder from "./pages/MyOrder";
+import Checkout from "./components/Cart/Checkout";
 // import AdminLayout from "./components/Layout/AdminLayout";
 import {Toaster} from "sonner"
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="register" element={<Register />} />
           <Route path="profile" element={<Profile />} />
           <Route path="collections/:collection" element={<Collection />} />
+          <Route path="checkout" element={<Checkout />} />
           {/* <Route path="my-orders" element={<MyOrder />} /> */}
         </Route>
 
