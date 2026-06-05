@@ -8,12 +8,14 @@ import Profile from "./pages/Profile";
 import Collection from "./pages/Collection";
 import MyOrder from "./pages/MyOrder";
 import Checkout from "./components/Cart/Checkout";
+import OrderConfirmationPage from "./pages/OrderConfirmationPage";
+import OrderDetailsPage from "./pages/OrderDetailsPage";
 // import AdminLayout from "./components/Layout/AdminLayout";
-import {Toaster} from "sonner"
+import { Toaster } from "sonner";
 function App() {
   return (
     <BrowserRouter>
-    <Toaster position="top-right" richColors />
+      <Toaster position="top-right" richColors />
       <Routes>
         {/* user layout */}
         <Route path="/" element={<UserLayout />}>
@@ -23,6 +25,11 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="collections/:collection" element={<Collection />} />
           <Route path="checkout" element={<Checkout />} />
+          <Route
+            path="order-confirmation"
+            element={<OrderConfirmationPage />}
+          />
+          <Route path="order/:id" element={<OrderDetailsPage />} />
           {/* <Route path="my-orders" element={<MyOrder />} /> */}
         </Route>
 
