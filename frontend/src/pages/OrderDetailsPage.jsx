@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-
+import { useParams ,Link } from "react-router-dom";
 export default function OrderDetailsPage() {
   const { id } = useParams();
   const [orderDetails, setOrderDetails] = useState(null);
@@ -264,6 +263,10 @@ export default function OrderDetailsPage() {
               </table>
             </div>
           </div>
+          {/* back to order list */}
+          <Link to="/my-orders" className="text-blue-500 hover:underline">
+             Back to Order List
+          </Link>
         </div>
       )}
     </div>

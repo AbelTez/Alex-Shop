@@ -10,7 +10,7 @@ import MyOrder from "./pages/MyOrder";
 import Checkout from "./components/Cart/Checkout";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import OrderDetailsPage from "./pages/OrderDetailsPage";
-// import AdminLayout from "./components/Layout/AdminLayout";
+import AdminLayout from "./components/Admin/AdminLayout";
 import { Toaster } from "sonner";
 function App() {
   return (
@@ -31,9 +31,11 @@ function App() {
           />
           <Route path="order/:id" element={<OrderDetailsPage />} />
           {/* <Route path="my-orders" element={<MyOrder />} /> */}
+          <Route path="my-orders" element={<MyOrder />} />
         </Route>
 
         {/* admin layout */}
+        <Route path="/admin" element={<AdminLayout />} />
         {/* <Route path="/admin" element={<AdminLayout />} /> */}
       </Routes>
     </BrowserRouter>

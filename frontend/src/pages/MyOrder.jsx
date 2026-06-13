@@ -1,10 +1,10 @@
-import React from "react";
-
+import React , {useState ,useEffect}from "react";
+import { useNavigate } from "react-router-dom";
 export default function MyOrder() {
   const [orders, setOrders] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-
-  React.useEffect(() => {
+  const navigate = useNavigate();
+  useEffect(() => {
     const timer = setTimeout(() => {
       const mockOrders = [
         {
@@ -72,7 +72,10 @@ export default function MyOrder() {
 
     return () => clearTimeout(timer);
   }, []);
-
+  const handleRowClick = (orderId) => {
+    // Navigate to order details page
+    navigate(`/order/${orderId}`);
+  };
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
@@ -124,6 +127,7 @@ export default function MyOrder() {
                 {orders.map((order) => (
                   <tr
                     key={order._id}
+                    onClick={() => handleRowClick(order._id)}
                     className="hover:bg-gray-50/70 cursor-pointer transition-colors"
                   >
                     {/* Image & Product Name Column */}

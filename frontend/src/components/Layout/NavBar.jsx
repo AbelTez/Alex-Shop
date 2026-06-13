@@ -10,6 +10,7 @@ import { IoMdClose } from "react-icons/io";
 import SearchBar from "../Common/SearchBar";
 import myLogo from "../../assets/images/logo.png";
 import CartDrawer from "./CartDrawer";
+import AdminLayout from "../Admin/AdminLayout";
 
 export default function NavBar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -64,6 +65,7 @@ export default function NavBar() {
             </div>
 
             {/* Profile */}
+            <Link to="/admin" className="block bg-black px-2 rounded text-sm text-white">Admin</Link>
             <Link
               to="/profile"
               className="rounded-full p-2 text-gray-700 transition duration-300 hover:bg-gray-100 hover:text-rabbit-red"
